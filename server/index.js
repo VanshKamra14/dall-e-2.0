@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   methods: ['GET', 'POST'],
   credentials: true,
 }));
@@ -28,10 +28,16 @@ app.get('/', async (req, res) => {
 
 const startServer = async () => {
   try {
-   await connectDB(process.env.MONGODB_URL);
+    console.log("Mongo URL:", process.env.MONGODB_URL); // check env
+    if (!process.env.MONGODB_URL) {
+      console.error('MONGODB_URL not set in environment. Please add it to your .env file.');
+      process.exit(1);
+    }
+
+    await connectDB(process.env.MONGODB_URL);
     app.listen(8080, () => console.log('Server started on port 8080'));
   } catch (error) {
-    console.log(error);
+    console.error('Server failed to start:', error);
   }
 };
 
