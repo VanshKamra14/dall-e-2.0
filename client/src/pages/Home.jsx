@@ -23,17 +23,26 @@ const Home = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
+        console.log('Fetching from:', `${API_BASE}/api/v1/post`);
         const response = await fetch(`${API_BASE}/api/v1/post`, {
-          method: "GET", // changed from POST → GET
-          headers: { "Content-Type": "application/json" },
+          method: "GET",
+          headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
         });
 
         if (response.ok) {
           const result = await response.json();
+          console.log('Posts fetched:', result);
           setAllPosts(result.data.reverse());
+        } else {
+          console.error('Server responded with:', response.status, await response.text());
+          throw new Error(`Server responded with ${response.status}`);
         }
       } catch (error) {
-        alert(error);
+        console.error('Fetch error:', error);
+        alert('Error loading posts: ' + error.message);
       } finally {
         setLoading(false);
       }

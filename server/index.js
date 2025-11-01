@@ -10,11 +10,11 @@ dotenv.config();
 
 const app = express();
 
-// Allow both development and production frontend URLs
+// Allow all origins during testing
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://dall-e-2-0-navy.vercel.app', 'https://dall-e-2-0-navy.vercel.app'],
-  methods: ['GET', 'POST'],
-  credentials: true,
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(express.json({ limit: '50mb' }));
