@@ -10,12 +10,21 @@ dotenv.config();
 
 const app = express();
 
-// Allow all origins during testing
+// CORS configuration for development and production
 app.use(cors({
-  origin: '*',
+  origin: [
+    'http://localhost:5173',
+    'https://aistudio-rc81bv6ae-vanshkamra14s-projects.vercel.app',
+    'https://dall-e-2-0-navy.vercel.app'
+  ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json({ limit: '50mb' }));
 
