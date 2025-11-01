@@ -10,9 +10,9 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Use dynamic frontend URL (for deployment) or localhost (for dev)
+// Allow both development and production frontend URLs
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'https://dall-e-2-0-navy.vercel.app', 'https://dall-e-2-0-navy.vercel.app'],
   methods: ['GET', 'POST'],
   credentials: true,
 }));
